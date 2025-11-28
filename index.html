@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BigBouncer - Cricket Ground Manager</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <header class="app-header">
+        <div>
+          <h1>🏏 BigBouncer</h1>
+          <p>Cricket Ground Management</p>
+        </div>
+        <div class="admin-controls">
+          <span id="admin-badge" class="admin-badge" style="display: none;">
+            🔐 Admin
+          </span>
+          <button id="admin-login-btn" class="ghost admin-btn">Admin Login</button>
+          <button id="admin-logout-btn" class="ghost admin-btn" style="display: none;">Logout</button>
+        </div>
+      </header>
+
+      <nav class="tabs">
+        <button class="tab-button active" data-tab="schedule">Schedule</button>
+        <button class="tab-button" data-tab="slots">Empty Slots</button>
+        <button class="tab-button" data-tab="results">Results</button>
+      </nav>
+
+      <main>
+        <!-- Schedule Tab -->
+        <section id="tab-schedule" class="tab active">
+          <div class="panel">
+            <h2>Match Schedule</h2>
+            <div class="import-card admin-only" style="display: none;">
+              <div class="import-info">
+                <h3>Import schedule from CSV</h3>
+                <p>
+                  Upload the `DataToFeedCSV.csv` file (or similar layout) and we will populate every weekend automatically.
+                  The file never leaves your browser.
+                </p>
+              </div>
+              <div class="import-actions">
+                <label>
+                  Match year
+                  <input type="number" id="csv-year" min="2020" max="2100" value="2025" />
+                </label>
+                <button type="button" id="csv-upload-btn" class="primary">Upload CSV</button>
+                <input type="file" id="csv-file" accept=".csv,text/csv" hidden />
+              </div>
+              <p id="csv-status" class="status muted">No CSV uploaded yet.</p>
+            </div>
+            <div class="filters">
+              <label>
+                Weekend
+                <select id="schedule-weekend">
+                  <option value="">Select a weekend...</option>
+                </select>
+              </label>
+              <button type="button" id="add-match-btn" class="primary admin-only" style="display: none;">+ Add Match</button>
+            </div>
+
+            <div class="schedule-main">
+              <div class="schedule-header">
+                <h3>Matches</h3>
+                <span id="match-count" class="match-count">0 matches</span>
+              </div>
+              <ul id="match-list" class="list"></ul>
+            </div>
+
+            <!-- Match Form Modal -->
+            <div id="match-modal" class="modal hidden">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h3 id="modal-title">Add Match</h3>
+                  <button type="button" id="modal-close" class="modal-close">&times;</button>
+                </div>
+                <form id="match-form" class="form">
+                  <input type="hidden" id="match-id" />
+                  <label>
+                    Date
+                    <input type="date" id="match-date" required />
+                  </label>
+                  <div class="row">
+                    <label>
+                      Start
+                      <input type="time" id="match-start" required />
+                    </label>
+                    <label>
+                      End
+                      <input type="time" id="match-end" required />
+                    </label>
+                  </div>
+                  <div class="row">
+                    <label>
+                      Team A
+                      <input type="text" id="match-team-a" placeholder="Team A" required />
+                    </label>
+                    <label>
+                      Team B
+                      <input type="text" id="match-team-b" placeholder="Team B" required />
+                    </label>
+                  </div>
+                  <label>
+                    Format / Type
+                    <input type="text" id="match-format" placeholder="T20, Practice, Tournament..." />
+                  </label>
+                  <label>
+                    Result (optional)
+                    <input type="text" id="match-result" placeholder="Team A won by 30 runs" />
+                  </label>
+                  <div class="actions">
+                    <button type="submit" class="primary">Save Match</button>
+                    <button type="button" id="match-reset" class="ghost">Clear</button>
+                    <button type="button" id="modal-cancel" class="ghost">Cancel</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Empty Slots Tab -->
+        <section id="tab-slots" class="tab">
+          <div class="panel">
+            <h2>Empty Slots</h2>
+            <div class="filters">
+              <label>
+                Month
+                <input type="month" id="slots-month" />
+              </label>
+              <div class="filters-note">
+                <strong>Day window:</strong> 7:00 AM – 6:00 PM<br />
+                <strong>Match slots:</strong> T20 = 3h • T30 = 5h 30m<br />
+                Weekdays are not available for bookings.
+              </div>
+              <button id="slots-refresh" class="primary">Show Empty Slots</button>
+            </div>
+            <ul id="slots-list" class="list"></ul>
+          </div>
+        </section>
+
+        <!-- Results Tab -->
+        <section id="tab-results" class="tab">
+          <div class="panel">
+            <h2>Past Results</h2>
+            <div class="filters">
+              <label>
+                From
+                <input type="date" id="results-from" />
+              </label>
+              <label>
+                To
+                <input type="date" id="results-to" />
+              </label>
+              <label>
+                Team (optional)
+                <input type="text" id="results-team" placeholder="Search by team name" />
+              </label>
+              <button id="results-refresh" class="primary">Filter</button>
+            </div>
+            <ul id="results-list" class="list"></ul>
+          </div>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <span>Data is stored locally in this browser (no server yet).</span>
+      </footer>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

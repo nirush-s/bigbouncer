@@ -1,0 +1,13 @@
+# Ignore system files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Ignore Numbers file (keep CSV for reference but don't commit)
+DataToFeed.numbers
+
+# Vercel
+.vercel
+
