@@ -1,0 +1,10 @@
+# Copy and paste these commands in your terminal:
+
+# Replace YOUR_USERNAME with your actual GitHub username
+cd "/Users/nirushs/Desktop/Work Related/Projects/BigBouncer"
+git remote add origin https://github.com/YOUR_USERNAME/bigbouncer.git
+git branch -M main
+git push -u origin main
+
+# After pushing, go back to Vercel and you'll see your repository listed!
+
